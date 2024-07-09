@@ -17,15 +17,15 @@ class BadgeController extends Controller
 {
     //test
     public function index(){
-        // $elid = 11;
-        // $eleve = Eleve::findOrFail($elid);
+        $elid = 11;
+        $eleve = Eleve::findOrFail($elid);
         // $qrCodePath = 'qrcodes/' . $elid . '.png';
         // $qrcode = QrCode::format('png')->size(200)->generate($elid, public_path($qrCodePath));
         // return view('qrcode', compact('qrcode'));
 
         // return view('qrcode', ['qrCodeImage' => $qrCodePath]);
         $qrCodes = [];
-        $qrCodes['simple'] = QrCode::size(120)->generate('https://www.binaryboxtuts.com/');
+        $qrCodes['simple'] = QrCode::size(120)->generate($eleve);
         $qrCodes['changeColor'] = QrCode::size(120)->color(255, 0, 0)->generate('https://www.binaryboxtuts.com/');
         $qrCodes['changeBgColor'] = QrCode::size(120)->backgroundColor(255, 0, 0)->generate('https://www.binaryboxtuts.com/');
 

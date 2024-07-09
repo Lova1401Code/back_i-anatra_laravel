@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Enseignant;
 use App\Models\User;
+use App\Notifications\SendParentNotification;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -32,12 +34,19 @@ class TeacherController extends Controller
             'profile_photo_path' => $profilePhotoPath ?? null,
         ]);
         //création d'un teacher
-        Enseignant::create([
+         Enseignant::create([
             'user_id' => $user->id,
             'specialite' => $request->specialite,
             'telephone' => $request->telephone,
             'adresse' => $request->adresse,
         ]);
+        if ($user){
+            try {
+                $user->notify(new SendParentNotification());
+            } catch (Exception $e) {
+                return response()->json(['message' => $e]);
+            }
+        }
         //renvoi la réponse json
         return response()->json(['message' => 'Enseignant inscrit avec succès'], 201);
 
