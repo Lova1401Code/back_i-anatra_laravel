@@ -12,7 +12,8 @@ class Matiere extends Model
         'nom',
         'annee_scolaire_id',
         'enseignant_id',
-        'semestre_id'
+        'semestre_id',
+        'coefficient'
     ];
     public function anneeScolaire()
     {

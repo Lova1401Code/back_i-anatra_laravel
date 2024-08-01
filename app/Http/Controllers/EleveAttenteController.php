@@ -114,5 +114,18 @@ class EleveAttenteController extends Controller
         ]);
 
     }
+    //liste des eleves qui sont inscrit
+    public function listeEleveIncrit(){
+        $eleveInscrit = Inscription::with('eleve', 'anneeScolaire')->get();
+        return response()->json([
+            'eleveInscrit' => $eleveInscrit
+        ]);
+    }
     //liste des eleves validé
+    public function listeEleveValidee(){
+        $eleveValidee = Eleve::with('inscriptions', 'classes', 'user')->get();
+        return response()->json([
+            'eleveValidee' => $eleveValidee
+        ]);
+    }
 }

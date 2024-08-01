@@ -10,8 +10,11 @@ use App\Http\Controllers\MatiereController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\PresenceController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SalleController;
 use App\Http\Controllers\SemestreController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,12 +36,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/teacher/register', [TeacherController::class, 'register']);
 
 //user
+Route::get('/user', [UserController::class, 'index']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'show']);
 
 //eleves en Attente
 Route::post('/inscription', [EleveAttenteController::class, 'store']);
+Route::get('/eleveIncrit', [EleveAttenteController::class, 'listeEleveIncrit']);
+Route::get('/eleveValidee', [EleveAttenteController::class, 'listeEleveValidee']);
 Route::get('/eleves-attentes', [EleveAttenteController::class, 'index']);
 Route::get('/eleves-attentes/{id}', [EleveAttenteController::class, 'show']);
 Route::post('/eleves-attentes/{id}/validate', [EleveAttenteController::class, 'validateEleve']);
@@ -80,5 +86,12 @@ Route::post('/mark-presence/{eleve_id}', [PresenceController::class, 'createBadg
 Route::get('/classes/{classe_id}/eleves', [ClasseController::class, 'getEleves']);
 Route::get('/presences', [PresenceController::class, 'index'])->name('presences.index');
 Route::post('/presences/record', [PresenceController::class, 'recordPresence'])->name('presences.record');
+
+//payment
+Route::get('/getSession', [StripeController::class, 'getSession'])->name('getSession');
+
+//Salle
+Route::post('/salle', [SalleController::class, 'store']);
+Route::get('/salle', [SalleController::class, 'index']);
 
 
