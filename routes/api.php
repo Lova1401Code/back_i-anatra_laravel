@@ -72,12 +72,14 @@ Route::post('/semestre', [SemestreController::class, 'store']);
 //note
 Route::get('/note', [NoteController::class, 'index']);
 Route::post('/note', [NoteController::class, 'store']);
+Route::post('/note/selectEleve', [NoteController::class, 'getElevesByAnneeAndClasse']);
 
 //Bulletin
 Route::get('/bulletin/{eleveId}/{semestreId}', [BulletinController::class, 'show']);
 Route::get('/bulletin/{eleveId}', [BulletinController::class, 'showAnnual']);
 
 //Badge
+Route::get('/badges/index/{id}', [BadgeController::class, 'index'])->name('badges.index');
 Route::post('/badges/generate/{eleveId}', [BadgeController::class, 'generateBadge']);
 Route::get('/badges/{id}', [BadgeController::class, 'show'])->name('badges.show');
 

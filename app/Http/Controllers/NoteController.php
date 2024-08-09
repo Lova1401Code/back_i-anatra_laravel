@@ -87,5 +87,21 @@ class NoteController extends Controller
 
         return response()->json(['message' => 'Note supprimée avec succès']);
     }
+    //Récuperer les eleves par l'année scolaire et class
+    public function getElevesByAnneeAndClasse(Request $request){
+        $anneeScolaireId = $request->input('annee_scolaire_id');
+         $classeId = $request->input('classe_id');
+
+    // Requête pour récupérer les élèves filtrés par année scolaire et classe
+        $eleves = Eleve::select('eleves.*')
+        ->join('inscriptions', 'eleves.id', '=', 'inscriptions.eleves_id')
+        ->join('classe_eleve', 'eleves.id', '=', 'classe_eleve.eleve_id')
+        ->join('classe', 'classe_eleve.classe_id', '=', 'classe.id')
+        ->where('inscriptions.annee_scolaire_id', $anneeScolaireId)
+        ->where('classe.id', $classeId)
+        ->get();
+
+    return response()->json($eleves);
+    }
 }
 
